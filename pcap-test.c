@@ -51,14 +51,14 @@ void read_payload(u_char* packet,u_int8_t ip_header_length, u_int8_t tcp_header_
     printf("=======================payload========================\n");
     printf("payload : ");
     for(int i = 0; i < 10; i++){
-        printf("%02x",payload->data[i]);
+        printf("%02x ",payload->data[i]);
     }
     printf("\n\n\n\n");
 
 }
 
 
-u_int8_t Read_TCP_header(u_char* packet, u_int8_t ip_length){
+u_int8_t read_TCP_header(u_char* packet, u_int8_t ip_length){
 
     struct TCP_Header* tcp_header;
     packet += 14+ip_length;
@@ -84,7 +84,7 @@ u_int8_t Read_TCP_header(u_char* packet, u_int8_t ip_length){
 
 }
 
-u_int8_t Read_IP_header(u_char* packet){
+u_int8_t read_IP_header(u_char* packet){
     struct IP_Header* ip_header;
     packet += 14;
     ip_header = (struct IP_Header*)packet;
@@ -118,7 +118,7 @@ u_int8_t Read_IP_header(u_char* packet){
 
 }
 
-void Read_Ethernet_header(u_char* packet){
+void read_Ethernet_header(u_char* packet){
     struct Ethernet_Header * ethernet_header;
     ethernet_header = (struct Ethernet_Header*)packet;
     printf("====================Ethernet Header===================\n");
@@ -206,9 +206,9 @@ int main(int argc, char* argv[]) {
             u_int8_t tcp_length;
             printf("======================Packet size=====================\n");
             printf("%u bytes captured\n", header->caplen);
-            Read_Ethernet_header(packet);
-            ip_length = Read_IP_header(packet);
-            tcp_length = Read_TCP_header(packet,ip_length);
+            read_Ethernet_header(packet);
+            ip_length = read_IP_header(packet);
+            tcp_length = read_TCP_header(packet,ip_length);
             read_payload(packet,ip_length,tcp_length);
         }
 	}
